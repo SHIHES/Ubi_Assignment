@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Ubi_Assignment</string>
+
+    <string name="unexpected_error">"意料之外的錯誤"</string>
 </resources>
