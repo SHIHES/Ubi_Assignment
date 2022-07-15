@@ -4,6 +4,7 @@
     package="com.example.android.ubi_assignment">
 
     <application
+        android:name=".util.CustomApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
