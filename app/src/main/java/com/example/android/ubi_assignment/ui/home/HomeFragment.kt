@@ -6,11 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android.ubi_assignment.databinding.FragmentHomeBinding
 import com.example.android.ubi_assignment.ext.getVmFactory
+import com.example.android.ubi_assignment.logic.model.AirPollutionNetworkResult
+import com.example.android.ubi_assignment.util.Logger
 
 class HomeFragment : Fragment() {
     
@@ -33,11 +37,7 @@ class HomeFragment : Fragment() {
         bannerRv.adapter = bannerAdapter
         
         val resultRv = binding.fragmentHomeResultRv
-        val airResultAdapter = AirResultAdapter(
-            AirResultAdapter.OnClickListener{
-                Toast.makeText(requireContext(), "This is $it position", Toast.LENGTH_SHORT).show()
-            }
-        )
+        val airResultAdapter = AirResultAdapter()
     
         resultRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         resultRv.adapter = airResultAdapter
@@ -45,9 +45,23 @@ class HomeFragment : Fragment() {
     
         viewModel.airResult.observe(viewLifecycleOwner){
             it?.let {
-                bannerAdapter.submitList(it.records)
-                airResultAdapter.submitList(it.records)
-                Log.d("Steven", "$it")
+                val result = Bundle()
+                result.putParcelable("result", it)
+                Logger.d("result from ${result.getParcelable<AirPollutionNetworkResult>("result")}")
+                setFragmentResult("requestKey", result)
+            }
+        }
+        
+        viewModel.airResultGood.observe(viewLifecycleOwner) {
+            it?.let {
+                bannerAdapter.submitList(it)
+            }
+        }
+        
+        viewModel.airResultBad.observe(viewLifecycleOwner) {
+            it?.let {
+                Logger.d("viewModel.airResultBad $it")
+                airResultAdapter.submitList(it)
             }
         }
         return binding.root

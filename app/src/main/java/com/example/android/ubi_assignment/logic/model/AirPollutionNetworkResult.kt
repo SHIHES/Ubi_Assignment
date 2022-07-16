@@ -1,5 +1,10 @@
 package com.example.android.ubi_assignment.logic.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+
+@Parcelize
 data class AirPollutionNetworkResult(
     val __extras: Extras,
     val _links: Links,
@@ -13,4 +18,4 @@ data class AirPollutionNetworkResult(
     val resource_id: String,
     val sort: String,
     val total: Int
-)
+) : Parcelable

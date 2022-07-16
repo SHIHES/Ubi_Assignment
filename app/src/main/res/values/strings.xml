@@ -2,4 +2,7 @@
     <string name="app_name">Ubi_Assignment</string>
 
     <string name="unexpected_error">"意料之外的錯誤"</string>
+    <string name="good_status">良好</string>
+    <string name="good_status_content">The status is good, we want to go out to have fun</string>
+    <string name="toolbar_title">空氣汙染</string>
 </resources>

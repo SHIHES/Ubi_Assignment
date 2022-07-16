@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/border"
         android:text="siteid"
+        android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/border"
-
         android:text="台北市"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/item_airresult_siteId"
@@ -41,9 +41,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PM25"
+        android:layout_marginRight="@dimen/border"
         app:layout_constraintBottom_toTopOf="@+id/item_airresult_status"
-        app:layout_constraintEnd_toEndOf="@+id/item_airresult_status"
-        app:layout_constraintStart_toStartOf="@+id/item_airresult_status" />
+        app:layout_constraintEnd_toStartOf="@+id/item_airresult_detailImage"/>
 
     <TextView
         android:id="@+id/item_airresult_status"
@@ -51,8 +51,11 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/border"
         android:text="正常"
+        android:maxLines="1"
+        android:ems="13"
+        android:ellipsize="end"
         app:layout_constraintBottom_toBottomOf="@+id/item_airresult_siteCounty"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/item_airresult_detailImage" />
 
     <View
         android:layout_width="match_parent"
@@ -61,5 +64,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/item_airresult_detailImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/border"
+        android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

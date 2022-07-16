@@ -1,10 +1,12 @@
 package com.example.android.ubi_assignment.ui.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.ubi_assignment.R
+import com.example.android.ubi_assignment.logic.model.AirKPI
 import com.example.android.ubi_assignment.logic.model.AirPollutionNetworkResult
 import com.example.android.ubi_assignment.logic.model.LoadApiStatus
 import com.example.android.ubi_assignment.logic.network.DataSource
@@ -33,6 +35,16 @@ class HomeViewModel(
     
     val airResult: LiveData<AirPollutionNetworkResult>
         get() = _airResult
+    
+    private val _airResultBad = MutableLiveData<List<AirKPI>>()
+    
+    val airResultBad: LiveData<List<AirKPI>>
+        get() = _airResultBad
+    
+    private val _airResultGood = MutableLiveData<List<AirKPI>>()
+    
+    val airResultGood: LiveData<List<AirKPI>>
+        get() = _airResultGood
     
     init {
         getAirPollutionData()
@@ -65,7 +77,32 @@ class HomeViewModel(
                 }
         
             }
+            filterAirResult()
         }
+    }
+    
+    
+    fun filterAirResult(){
+        
+        val goodAirResult = mutableListOf<AirKPI>()
+        val badAirResult = mutableListOf<AirKPI>()
+        
+        for ( result in _airResult.value!!.records){
+            try {
+                if (result.PM2dot5.toInt() > 30) {
+                    goodAirResult.add(result)
+                } else {
+                    badAirResult.add(result)
+                }
+            } catch (e: Exception) {
+                Log.d("ss", "e ${e}")
+                continue
+            }
+
+        }
+        _airResultGood.value = goodAirResult
+        _airResultBad.value = badAirResult
+        
     }
     
     

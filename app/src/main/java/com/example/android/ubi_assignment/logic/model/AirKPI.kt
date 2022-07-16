@@ -1,7 +1,10 @@
 package com.example.android.ubi_assignment.logic.model
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class AirKPI(
     val AQI: String,
     val CO: String,
@@ -30,4 +33,4 @@ data class AirKPI(
     val Status: String,
     val WIND_DIREC: String,
     val WIND_SPEED: String
-)
+) : Parcelable

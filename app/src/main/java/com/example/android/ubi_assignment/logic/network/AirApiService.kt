@@ -14,7 +14,7 @@ private const val BASE_URL = "https://data.epa.gov.tw/api/v1/"
 private val client = OkHttpClient.Builder()
     .addInterceptor(
         HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+//            level = HttpLoggingInterceptor.Level.BODY
         }
     )
     .build()
