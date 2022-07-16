@@ -3,15 +3,18 @@ package com.example.android.ubi_assignment
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import com.example.android.ubi_assignment.databinding.ActivityMainBinding
-import com.example.android.ubi_assignment.logic.model.AirPollutionNetworkResult
-import com.example.android.ubi_assignment.util.Logger
+import com.example.android.ubi_assignment.ext.getVmFactory
+import com.example.android.ubi_assignment.ui.home.HomeViewModel
+
 
 class MainActivity : AppCompatActivity() {
     
     lateinit var binding: ActivityMainBinding
+//    private val viewModel: HomeViewModel by viewModels{ getVmFactory()}
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,43 +22,46 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         
-        supportFragmentManager
-            .setFragmentResultListener("requestKey",this) { requestKey, bundle ->
-                val result = bundle.getParcelable<AirPollutionNetworkResult>("result")
-            
-                Logger.d("supportFragmentManager $result")
-            }
+        setupToolbar()
+        
+//        supportFragmentManager
+//            .setFragmentResultListener("requestKey",this) { requestKey, bundle ->
+//                val result = bundle.getParcelable<AirPollutionNetworkResult>("result")
+//
+//                Logger.d("supportFragmentManager $result")
+//            }
 
     }
     
-    override fun onResume() {
-        super.onResume()
+    private fun setupToolbar() {
+        val toolbar = binding.mainActivityToolbar
+        toolbar.inflateMenu(R.menu.menu)
+        toolbar.setOnMenuItemClickListener{
+            when(it.itemId) {
+                R.id.action_search -> {
+                }
+            }
+            false
+        }
     
-
     }
     
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         
         menuInflater.inflate(R.menu.menu, menu)
-        val menuItem = menu.findItem(R.id.action_search)
-        val searchView = menuItem.actionView as SearchView
-        
-        searchView.queryHint = "Type here"
-        
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            
+        val item = menu.findItem(R.id.action_search)
+        val searchView = item.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
+                TODO("Not yet implemented")
             }
     
             override fun onQueryTextChange(newText: String?): Boolean {
-                TODO("Not yet implemented")
+                return false
             }
-        })
     
-
-            
-            
-                return super.onCreateOptionsMenu(menu)
+        })
+        return super.onCreateOptionsMenu(menu)
     }
+    
 }

@@ -8,13 +8,14 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 private const val BASE_URL = "https://data.epa.gov.tw/api/v1/"
 
 private val client = OkHttpClient.Builder()
     .addInterceptor(
         HttpLoggingInterceptor().apply {
-//            level = HttpLoggingInterceptor.Level.BODY
+            level = HttpLoggingInterceptor.Level.BODY
         }
     )
     .build()
@@ -31,8 +32,13 @@ private val retrofit = Retrofit.Builder()
 
 interface AirApiService {
     
-    @GET("aqx_p_432?limit=1000&api_key=9be7b239-557b-4c10-9775-78cadfc555e9&sort=ImportDate%20desc&format=json")
-    suspend fun getAreaAirPollution() : AirPollutionNetworkResult
+    @GET("aqx_p_432")
+    suspend fun getAreaAirPollution(
+        @Query("limit") limit: String = "1000",
+        @Query("api_key") apiKey: String = "9be7b239-557b-4c10-9775-78cadfc555e9",
+        @Query("sort") sort: String = "ImportDate desc",
+        @Query("format") format: String = "json"
+    ) : AirPollutionNetworkResult
 }
 
 object GovernmentApi {
