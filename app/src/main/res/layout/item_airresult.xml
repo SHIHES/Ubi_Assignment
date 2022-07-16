@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp">
+
+    <TextView
+        android:id="@+id/item_airresult_siteId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/border"
+        android:text="siteid"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/item_airresult_siteName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="台北"
+        android:layout_marginStart="@dimen/border"
+        app:layout_constraintBottom_toTopOf="@+id/item_airresult_siteCounty"
+        app:layout_constraintStart_toEndOf="@+id/item_airresult_siteId"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/item_airresult_siteCounty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/border"
+
+        android:text="台北市"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_airresult_siteId"
+        app:layout_constraintTop_toBottomOf="@+id/item_airresult_siteName" />
+
+    <TextView
+        android:id="@+id/item_airresult_sitePN25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PM25"
+        app:layout_constraintBottom_toTopOf="@+id/item_airresult_status"
+        app:layout_constraintEnd_toEndOf="@+id/item_airresult_status"
+        app:layout_constraintStart_toStartOf="@+id/item_airresult_status" />
+
+    <TextView
+        android:id="@+id/item_airresult_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/border"
+        android:text="正常"
+        app:layout_constraintBottom_toBottomOf="@+id/item_airresult_siteCounty"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
