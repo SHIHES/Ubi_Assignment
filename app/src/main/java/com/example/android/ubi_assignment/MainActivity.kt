@@ -2,66 +2,68 @@ package com.example.android.ubi_assignment
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
+import android.view.MenuItem
+import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import com.example.android.ubi_assignment.databinding.ActivityMainBinding
 import com.example.android.ubi_assignment.ext.getVmFactory
-import com.example.android.ubi_assignment.ui.home.HomeViewModel
+import com.example.android.ubi_assignment.ui.home.SharedViewModel
+import com.example.android.ubi_assignment.util.Logger
 
 
 class MainActivity : AppCompatActivity() {
     
     lateinit var binding: ActivityMainBinding
-//    private val viewModel: HomeViewModel by viewModels{ getVmFactory()}
+    private val viewModel: SharedViewModel by viewModels{ getVmFactory()}
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        
         setupToolbar()
-        
-//        supportFragmentManager
-//            .setFragmentResultListener("requestKey",this) { requestKey, bundle ->
-//                val result = bundle.getParcelable<AirPollutionNetworkResult>("result")
-//
-//                Logger.d("supportFragmentManager $result")
-//            }
 
     }
     
     private fun setupToolbar() {
         val toolbar = binding.mainActivityToolbar
         toolbar.inflateMenu(R.menu.menu)
-        toolbar.setOnMenuItemClickListener{
-            when(it.itemId) {
-                R.id.action_search -> {
-                }
-            }
-            false
-        }
-    
-    }
-    
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         
-        menuInflater.inflate(R.menu.menu, menu)
-        val item = menu.findItem(R.id.action_search)
+        val item = toolbar.menu.findItem(R.id.action_search)
         val searchView = item.actionView as SearchView
+        searchView.queryHint = getString(R.string.searchView_hint)
+        
+        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                TODO("Not yet implemented")
-            }
-    
-            override fun onQueryTextChange(newText: String?): Boolean {
                 return false
             }
-    
+        
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    viewModel.getSearchText(newText)
+                }
+            
+                return false
+            }
+        
         })
-        return super.onCreateOptionsMenu(menu)
+        
+        item.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+                viewModel.getSearchStatus(true)
+                return true
+            }
+    
+            override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+                viewModel.getSearchStatus(false)
+                return true
+            }
+        })
+
     }
+    
     
 }

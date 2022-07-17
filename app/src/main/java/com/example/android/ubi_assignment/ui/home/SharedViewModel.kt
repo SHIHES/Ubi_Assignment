@@ -11,11 +11,12 @@ import com.example.android.ubi_assignment.logic.model.AirPollutionNetworkResult
 import com.example.android.ubi_assignment.logic.model.LoadApiStatus
 import com.example.android.ubi_assignment.logic.network.DataSource
 import com.example.android.ubi_assignment.logic.model.Result
+import com.example.android.ubi_assignment.util.Logger
 import com.example.android.ubi_assignment.util.Util
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-class HomeViewModel(
+class SharedViewModel(
     private val repository: DataSource
 ) : ViewModel() {
     
@@ -45,6 +46,21 @@ class HomeViewModel(
     
     val airResultGood: LiveData<List<AirKPI>>
         get() = _airResultGood
+    
+    private val _searchText = MutableLiveData<String>()
+    
+    val searchText: LiveData<String>
+        get() = _searchText
+    
+    private val _searchData = MutableLiveData<List<AirKPI>>()
+    
+    val searchData: LiveData<List<AirKPI>>
+        get() = _searchData
+    
+    private val _searchStage = MutableLiveData(false)
+    
+    val searchStage: LiveData<Boolean>
+        get() = _searchStage
     
     init {
         getAirPollutionData()
@@ -82,7 +98,7 @@ class HomeViewModel(
     }
     
     
-    fun filterAirResult(){
+    private fun filterAirResult(){
         
         val goodAirResult = mutableListOf<AirKPI>()
         val badAirResult = mutableListOf<AirKPI>()
@@ -103,6 +119,22 @@ class HomeViewModel(
         _airResultGood.value = goodAirResult
         _airResultBad.value = badAirResult
         
+    }
+    
+    fun getSearchText(text: String) {
+        _searchText.value = text
+        filterSearchData(text)
+        Logger.d("getSearchText ${_searchText.value}")
+    }
+    
+    fun filterSearchData(text: String) {
+        _searchData.value = _airResultBad.value?.filter {
+            it.County.contains(text) || it.SiteName.contains(text)
+        }
+    }
+    
+    fun getSearchStatus(status: Boolean){
+        _searchStage.value = status
     }
     
     
